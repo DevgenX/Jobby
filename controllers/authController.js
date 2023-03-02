@@ -18,9 +18,19 @@ const register = async (req, res) => {
   if (userAlreadyExist) {
     throw new BadRequestError("Email already in use");
   }
-
   const user = await User.create({ name, email, password });
-  res.status(StatusCodes.CREATED).json({ user });
+  // create a jwt token, with the user specific ID
+  const token = user.createJWT();
+  // renders the selected data and filters the password out of the mongoDB table
+  res.status(StatusCodes.OK).json({
+    user: {
+      email: user.email,
+      lastName: user.lastName,
+      location: user.location,
+      name: user.name,
+    },
+    token,
+  });
 };
 
 const login = async (req, res) => {

@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 // add validator to the inputs
 import validator from "validator";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 // Create schema for user details for the profile page
 
@@ -27,6 +29,8 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide password"],
     minlength: 6,
+    // hide the password
+    select: false,
   },
 
   lastName: {
@@ -44,5 +48,20 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
+// hook that gets called before we save the document
+// Use anonymous function instead of arrow function to access outside properties
+UserSchema.pre("save", async function () {
+  // salt adds random characters to make the password more secure
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+UserSchema.methods.createJWT = function () {
+  return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_LIFETIME,
+  });
+};
+
 // create the user collection in the mongoDB
+// We called the table to be User in the mongoDB table
 export default mongoose.model("User", UserSchema);

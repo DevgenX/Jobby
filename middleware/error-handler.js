@@ -18,11 +18,11 @@ const errorHandlerMiddleWare = (err, req, res, next) => {
       .join(",");
   }
 
+  // get the specific key that is the error, like the email
   if (err.code && err.code === 11000) {
     defaultError.statusCode = StatusCodes.BAD_REQUEST;
     defaultError.msg = `${Object.keys(err.keyValue)} has been taken`;
   }
-  // res.status(defaultError.statusCode).json({ msg: err });
   res.status(defaultError.statusCode).json({ msg: defaultError.msg });
 };
 
