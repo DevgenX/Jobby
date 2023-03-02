@@ -1,3 +1,5 @@
+// allows you to render errors without using try/catch
+import "express-async-errors";
 import express from "express";
 const app = express();
 import dotenv from "dotenv";
