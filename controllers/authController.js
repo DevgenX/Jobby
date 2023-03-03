@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 import { StatusCodes } from "http-status-codes";
-import { BadRequestError } from "../errors/index.js";
+import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 
 // next makes you access/pass the error handlers/middlewares, so it makes them reusable
 // gives you a body of the error
@@ -22,7 +22,7 @@ const register = async (req, res) => {
   // create a jwt token, with the user specific ID
   const token = user.createJWT();
   // renders the selected data and filters the password out of the mongoDB table
-  res.status(StatusCodes.OK).json({
+  res.status(StatusCodes.CREATED).json({
     user: {
       email: user.email,
       lastName: user.lastName,
@@ -34,7 +34,26 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  res.send("login");
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    throw new BadRequestError("Please provide required field");
+  }
+
+  const user = await User.findOne({ email }).select("+password");
+
+  if (!user) {
+    throw new UnAuthenticatedError("Email or Password is incorrect");
+  }
+
+  const isPasswordCorrect = await user.comparePassword(password);
+
+  if (!isPasswordCorrect) {
+    throw new UnAuthenticatedError("Invalid Credentials");
+  }
+  const token = user.createJWT();
+  user.password = undefined;
+  res.status(StatusCodes.OK).json({ user, token, location: user.location });
 };
 
 const updateUser = async (req, res) => {
