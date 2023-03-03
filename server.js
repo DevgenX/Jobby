@@ -1,5 +1,6 @@
 // allows you to render errors without using try/catch
 import "express-async-errors";
+import morgan from "morgan";
 import express from "express";
 const app = express();
 import dotenv from "dotenv";
@@ -16,11 +17,20 @@ import jobsRouter from "./routes/jobsRoutes.js";
 import errorHandlerMiddleWare from "./middleware/error-handler.js";
 import notFoundMiddleWare from "./middleware/not-found.js";
 
-// make json available to us on controllers
+// make json available to us on controllers\
+
+if (process.env.NODE_ENV !== "production") {
+  app.use(morgan("dev"));
+}
+
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Welcome!");
+  res.send("Welcome");
+});
+
+app.get("/api/v1", (req, res) => {
+  res.send("Welcome");
 });
 
 app.use("/api/v1/auth", authRouter);
