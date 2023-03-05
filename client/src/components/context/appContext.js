@@ -40,6 +40,16 @@ const AppContext = createContext();
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  // make the updating user global, so we don't have to declare it again and again
+  // axios.defaults.headers.common["Authorization"] = `Bearer ${state.token}`;
+
+  const authFetch = axios.create({
+    baseURL: "/api/v1/",
+    headers: {
+      Authorization: `Bearer ${state.token}`,
+    },
+  });
+
   const displayAlert = () => {
     dispatch({ type: DISPLAY_ALERT });
     clearAlert();
@@ -144,6 +154,15 @@ const AppProvider = ({ children }) => {
     removeUserFromLocalStorage();
   };
 
+  const updateUser = async (currentUser) => {
+    try {
+      const { data } = await authFetch.patch("/auth/updateUser", currentUser);
+      console.log(data);
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -154,6 +173,7 @@ const AppProvider = ({ children }) => {
         setupUser,
         toggleSidebar,
         logoutUser,
+        updateUser,
       }}
     >
       {children}

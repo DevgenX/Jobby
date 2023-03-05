@@ -16,6 +16,7 @@ import jobsRouter from "./routes/jobsRoutes.js";
 // middleware
 import errorHandlerMiddleWare from "./middleware/error-handler.js";
 import notFoundMiddleWare from "./middleware/not-found.js";
+import authenticateUser from "./middleware/auth.js";
 
 // make json available to us on controllers\
 
@@ -34,7 +35,7 @@ app.get("/api/v1", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/jobs", jobsRouter);
+app.use("/api/v1/jobs", authenticateUser, jobsRouter);
 
 app.use(notFoundMiddleWare);
 app.use(errorHandlerMiddleWare);

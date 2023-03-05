@@ -2,7 +2,7 @@ import User from "../models/User.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnAuthenticatedError } from "../errors/index.js";
 
-// next makes you access/pass the error handlers/middlewares, so it makes them reusable
+// next makes you access/pass the error handlers/middleware, so it makes them reusable
 // gives you a body of the error
 // express async errors handles it automatically for you, like the rescue_from in rails
 const register = async (req, res) => {
@@ -57,7 +57,24 @@ const login = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  res.send("Update");
+  const { email, name, lastName, location } = req.body;
+
+  if (!email || !name || !lastName || !location) {
+    throw new BadRequestError("Please provide required field");
+  }
+
+  const user = await User.findOne({ _id: req.user.userId });
+
+  console.log(user);
+
+  user.email = email;
+  user.name = name;
+  user.lastName = lastName;
+  user.location = location;
+
+  await user.save();
+  const token = user.createJWT();
+  res.status(StatusCodes.OK).json({ user, token, location: user.location });
 };
 
 export { register, login, updateUser };

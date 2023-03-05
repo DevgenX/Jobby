@@ -51,6 +51,7 @@ const UserSchema = new mongoose.Schema({
 // hook that gets called before we save the document
 // Use anonymous function instead of arrow function to access outside properties
 UserSchema.pre("save", async function () {
+  if (!this.isModified("password")) return;
   // salt adds random characters to make the password more secure
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
