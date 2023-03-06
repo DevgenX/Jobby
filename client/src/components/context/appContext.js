@@ -71,7 +71,7 @@ const AppProvider = ({ children }) => {
 
   authFetch.interceptors.request.use(
     (config) => {
-      config.headers.common["Authorization"] = `Bearer ${state.token}`;
+      config.headers["Authorization"] = `Bearer ${state.token}`;
       return config;
     },
     (error) => {
@@ -106,8 +106,8 @@ const AppProvider = ({ children }) => {
 
   const addUserToLocalStorage = ({ user, token, location }) => {
     localStorage.setItem("user", JSON.stringify(user));
-    localStorage.setItem("token", JSON.stringify(token));
-    localStorage.setItem("location", JSON.stringify(location));
+    localStorage.setItem("token", token);
+    localStorage.setItem("location", location);
   };
 
   const removeUserFromLocalStorage = () => {
@@ -271,7 +271,7 @@ const AppProvider = ({ children }) => {
       });
     } catch (error) {
       console.log(error.response);
-      //logoutUser
+      // logoutUser();
     }
     clearAlert();
   };
