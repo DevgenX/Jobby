@@ -1,8 +1,11 @@
+import { JobsContainer, SearchContainer } from "../../components";
+
 const AllJobs = () => {
   return (
-    <div>
-      <h1>All Jobs</h1>
-    </div>
+    <>
+      <SearchContainer />
+      <JobsContainer />
+    </>
   );
 };
 export default AllJobs;
