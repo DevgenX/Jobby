@@ -2,6 +2,7 @@ import Job from "../models/Job.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
+import mongoose from "mongoose";
 
 const createJob = async (req, res) => {
   const { position, company } = req.body;
@@ -66,7 +67,35 @@ const deleteJob = async (req, res) => {
 };
 
 const showStats = async (req, res) => {
-  res.send("show stats");
+  // aggregates all the data that is owned by the user or creator of the data
+  let stats = await Job.aggregate([
+    { $match: { createdBy: new mongoose.Types.ObjectId(req.user.userId) } },
+    // Acts like a filter group the data by their status
+    // sum = totals the overall data based on status
+    { $group: { _id: "$status", count: { $sum: 1 } } },
+  ]);
+
+  stats = stats.reduce((acc, curr) => {
+    // assign the id to be title
+    const { _id: title, count } = curr;
+    // let the value of the acc[title] have the count
+    //
+    acc[title] = count;
+    // return the object
+    // { declined: 25, interview: 26, pending: 24}
+    return acc;
+  }, {});
+
+  const defaultStats = {
+    pending: stats.pending || 0,
+    interview: stats.interview || 0,
+    declined: stats.declined || 0,
+  };
+
+  let monthlyApplications = [];
+
+  // match converts the data into object that the user has, userId is from the middleware
+  res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications });
 };
 
 export { createJob, deleteJob, getAllJobs, updateJob, showStats };
