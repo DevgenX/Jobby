@@ -16,10 +16,10 @@ const Landing = () => {
             Job <span>tracking</span> app
           </h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi
-            veritatis ad asperiores fugit suscipit? Accusamus, quod! Error
-            ducimus magni cum eos, laudantium velit natus quas labore quam
-            voluptatibus, odio fugit?
+            Tracking your job application has never been easier with Jobify.
+            From adding Jobs, editing application status, visualizing monthly
+            application statistics, Jobify got it all for you. Register for
+            free.
           </p>
           <Link to="/register" className="btn btn-hero">
             Login/Register
