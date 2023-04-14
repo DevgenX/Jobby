@@ -66,8 +66,6 @@ const updateUser = async (req, res) => {
 
   const user = await User.findOne({ _id: req.user.userId });
 
-  console.log(user);
-
   user.email = email;
   user.name = name;
   user.lastName = lastName;
