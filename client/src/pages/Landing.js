@@ -16,10 +16,9 @@ const Landing = () => {
             Job <span>tracking</span> app
           </h1>
           <p>
-            Tracking your job application has never been easier with Jobify.
-            From adding Jobs, editing application status, visualizing monthly
-            application statistics, Jobify got it all for you. Register for
-            free.
+            Tracking your job application has never been easier with Jobby. From
+            adding Jobs, editing application status, visualizing monthly
+            application statistics, Jobby got it all for you. Register for free.
           </p>
           <Link to="/register" className="btn btn-hero">
             Login/Register
