@@ -1,8 +1,11 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 const Wrapper = styled.section`
   display: grid;
   align-items: center;
+  background-color: #101124;
+  color: white;
+
   .logo {
     display: block;
     margin: 0 auto;
@@ -10,7 +13,10 @@ const Wrapper = styled.section`
   }
   .form {
     max-width: 400px;
-    border-top: 5px solid var(--primary-500);
+    border-top: 5px solid var(--primary-700);
+    border: 2px solid var(--white);
+    border-radius: 50px;
+    background-color: #101124;
   }
 
   h3 {
@@ -27,9 +33,9 @@ const Wrapper = styled.section`
   .member-btn {
     background: transparent;
     border: transparent;
-    color: var(--primary-500);
+    color: var(--primary-400);
     cursor: pointer;
     letter-spacing: var(--letterSpacing);
   }
-`
-export default Wrapper
+`;
+export default Wrapper;

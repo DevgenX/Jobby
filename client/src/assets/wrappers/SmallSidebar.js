@@ -1,13 +1,14 @@
 import styled from "styled-components";
 
 const Wrapper = styled.aside`
+  background-color: red;
   @media (min-width: 992px) {
     display: none;
   }
   .sidebar-container {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.7);
+
     display: flex;
     justify-content: center;
     align-items: center;

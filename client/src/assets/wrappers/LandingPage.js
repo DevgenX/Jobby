@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 const Wrapper = styled.main`
+  background-color: #101124;
+  min-height: 600vh;
   nav {
     width: var(--fluid-width);
     max-width: var(--max-width);
@@ -17,12 +19,13 @@ const Wrapper = styled.main`
   }
   h1 {
     font-weight: 700;
+    color: white;
     span {
       color: var(--primary-500);
     }
   }
   p {
-    color: var(--grey-600);
+    color: var(--white);
   }
   .main-img {
     display: none;

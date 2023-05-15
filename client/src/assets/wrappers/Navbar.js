@@ -6,6 +6,8 @@ const Wrapper = styled.nav`
   align-items: center;
   justify-content: center;
   box-shadow: 0 1px 0px 0px rgba(0, 0, 0, 0.1);
+  background-color: #101124 !important;
+  color: var(--white);
   .logo {
     display: flex;
     align-items: center;
@@ -21,7 +23,7 @@ const Wrapper = styled.nav`
     background: transparent;
     border-color: transparent;
     font-size: 1.75rem;
-    color: var(--primary-500);
+    color: var(--primary-100);
     cursor: pointer;
     display: flex;
     align-items: center;
