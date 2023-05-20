@@ -47,7 +47,6 @@ const JobsContainer = () => {
         })}
       </div>
       {numOfPages > 1 && <PageBtnContainer />}
-      {/* Pagination */}
     </Wrapper>
   );
 };
